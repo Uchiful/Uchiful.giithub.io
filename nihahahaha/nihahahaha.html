@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>nihahahaha</title>
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            cursor: pointer;
+            background-color: #f8f8f8;
+            overflow-x: hidden;
+        }
+        .persistent-img {
+            position: absolute;
+            max-width: 180px;
+            max-height: 180px;
+            border-radius: 6px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+    </style>
+</head>
+<body onclick="addAudioAndPersistentImg(event)">
+    <audio id="audioSource" src="E:\shulker box\nihahahaha.m4a">
+        您的浏览器不支持音频播放，请更新浏览器。
+    </audio>
+    <script>
+        let imgCount = 0;
+        function addAudioAndPersistentImg(event) {
+            const audioTemplate = document.getElementById("audioSource");
+            const newAudio = new Audio(audioTemplate.src);
+            newAudio.play().catch(err => {
+                alert("音频播放需要用户交互，点击页面任意位置即可触发");
+            });
+
+            const newImg = document.createElement("img");
+            newImg.src = "E:/shulker box/e8750b8a2d2d84dd3ed67f95fce681241440483488.jpg"; 
+            newImg.className = "persistent-img";
+            newImg.alt = `图片${imgCount + 1}`;
+            imgCount++;
+            newImg.style.zIndex = imgCount;
+            document.body.appendChild(newImg);
+
+            // 等图片加载完成后再计算位置
+            newImg.onload = function() {
+                const maxLeft = window.innerWidth - newImg.offsetWidth;
+                const maxTop = window.innerHeight - newImg.offsetHeight;
+                
+                const randomLeft = Math.max(0, Math.floor(Math.random() * maxLeft));
+                const randomTop = Math.max(0, Math.floor(Math.random() * maxTop));
+                
+                newImg.style.left = `${randomLeft}px`;
+                newImg.style.top = `${randomTop}px`;
+            };
+        }
+    </script>
+</body>
+</html>
